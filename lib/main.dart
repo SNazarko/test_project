@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         initialRoute: SplashPage.routeName,
         onGenerateRoute: AppRouter.generateRoute,
         routes: {
-          SplashPage.routeName: (_) => SplashPage(),
+          SplashPage.routeName: (_) => const SplashPage(),
         },
       ),
     );
