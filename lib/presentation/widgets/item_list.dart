@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:test_project/presentation/bloc/home_cubit.dart';
-
+import 'package:test_project/presentation/bloc/home_cubit.dart' as cubit;
+import 'package:test_project/dependency_injection.dart' as di;
 import '../../domain/models/user_search_model.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_icons.dart';
@@ -21,6 +20,7 @@ class ItemList extends StatefulWidget {
 }
 
 class _ItemListState extends State<ItemList> {
+  final cubit.HomeCubit homeCubit = di.getIt.get();
   bool _favorite = false;
 
   @override
@@ -63,15 +63,15 @@ class _ItemListState extends State<ItemList> {
               GestureDetector(
                 onTap: () {
                   if (widget.isFavorite == true) {
-                    context.read<HomeCubit>().dellFavorite(widget.model);
+                    homeCubit.dellFavorite(widget.model);
                   } else {
                     setState(() {
                       _favorite = !_favorite;
                     });
                     if (_favorite) {
-                      context.read<HomeCubit>().addFavorite(widget.model);
+                      homeCubit.addFavorite(widget.model);
                     } else {
-                      context.read<HomeCubit>().dellFavorite(widget.model);
+                      homeCubit.dellFavorite(widget.model);
                     }
                   }
                 },
@@ -80,7 +80,7 @@ class _ItemListState extends State<ItemList> {
                   height: 20.0,
                   child: SvgPicture.asset(
                     AppIcons.favorite1,
-                    color: context.watch<HomeCubit>().state.favoriteList.any(
+                    color: homeCubit.state.favoriteList.any(
                               (element) => element.id == widget.model.id,
                             )
                         ? AppColors.accentPrimary

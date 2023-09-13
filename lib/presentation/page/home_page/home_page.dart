@@ -55,8 +55,8 @@ class _HomePageState extends State<HomePage> {
               focus: _focus,
               controller: _controller,
               onEditingComplete: () {
-                if(_controller.text.isNotEmpty){
-                  context.read<cubit.HomeCubit>().getSearch(_controller.text);
+                if (_controller.text.isNotEmpty) {
+                  homeCubit.getSearch(_controller.text);
                 }
               },
             ),
@@ -64,6 +64,7 @@ class _HomePageState extends State<HomePage> {
                 ? BlocBuilder<cubit.HomeCubit, cubit.HomeState>(
                     bloc: homeCubit,
                     builder: (context, state) {
+                      print(state.status);
                       if (state.status == BlocStatus.initial) {
                         return Expanded(
                           child: Column(
@@ -88,25 +89,25 @@ class _HomePageState extends State<HomePage> {
                                         itemCount: state.historyList.length,
                                         itemBuilder: (context, index) {
                                           return ItemList(
-                                          model: state.historyList[index],
+                                            model: state.historyList[index],
                                           );
                                         },
                                       ),
                                     )
                                   : Expanded(
-                                    child: Center(
-                                      child: Text(
-                                        'You have empty history.\nClick on search to start journey!',
-                                        textAlign: TextAlign.center,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge
-                                            ?.copyWith(
-                                                color: AppColors
-                                                    .textPlaceholder),
+                                      child: Center(
+                                        child: Text(
+                                          'You have empty history.\nClick on search to start journey!',
+                                          textAlign: TextAlign.center,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.copyWith(
+                                                  color: AppColors
+                                                      .textPlaceholder),
+                                        ),
                                       ),
-                                    ),
-                                  )
+                                    )
                             ],
                           ),
                         );
@@ -169,7 +170,7 @@ class _HomePageState extends State<HomePage> {
                                     itemCount: state.searchList.length,
                                     itemBuilder: (context, index) {
                                       return ItemList(
-                                      model: state.searchList[index],
+                                        model: state.searchList[index],
                                       );
                                     },
                                   ),
@@ -184,7 +185,7 @@ class _HomePageState extends State<HomePage> {
                             width: double.infinity,
                             child: Center(child: CupertinoActivityIndicator()));
                       } else if (state.status == BlocStatus.error) {
-                        return Text(state.error ?? '');
+                        return Expanded(child: Text(state.error ?? ''));
                       } else {
                         return const SizedBox();
                       }

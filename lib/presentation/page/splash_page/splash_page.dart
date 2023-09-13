@@ -2,24 +2,25 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_project/presentation/theme/app_colors.dart';
-import '../../bloc/home_cubit.dart';
+import '../../bloc/home_cubit.dart' as cubit;
+import 'package:test_project/dependency_injection.dart' as di;
 import '../home_page/home_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
   static const routeName = '/';
 
+
   @override
   State<SplashPage> createState() => _SplashPageState();
 }
 
 class _SplashPageState extends State<SplashPage> {
-
+  final cubit.HomeCubit homeCubit = di.getIt.get();
   @override
   void initState() {
-    context.read<HomeCubit>().init();
+    homeCubit.init();
     _setInitialData();
     super.initState();
   }
